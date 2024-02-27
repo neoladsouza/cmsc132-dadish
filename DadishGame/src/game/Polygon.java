@@ -19,6 +19,13 @@ class Polygon {
 	private Point[] shape; // An array of points.
 	public Point position; // The offset mentioned above.
 	public double rotation; // Zero degrees is due east.
+	public float mass = 0.0f;
+	private float inverseMass = 0.0f;
+	private Point forceAccum = new Point(1, 1);
+	public Point linearVelocity = new Point(0,1);
+	private float deltaTime = 2f;
+	
+	private Point rawPosition;
 
 	public Polygon(Point[] inShape, Point inPosition, double inRotation) {
 		shape = inShape;
@@ -39,6 +46,44 @@ class Polygon {
 			p.x -= origin.x;
 			p.y -= origin.y;
 		}
+	}
+
+	public void setMass(float mass) {
+		this.mass = mass;
+		if (this.mass != 0.0f) {
+			inverseMass = 1.0f / this.mass;
+		}
+
+	}
+	public void physicsUpdate(float delta) {
+		if (mass == 0.0f) {
+			return;
+		}
+
+		// calculate linear velocity
+		Point acceleration = forceAccum.clone();
+		acceleration.x *= inverseMass;
+		acceleration.y *= inverseMass;
+		linearVelocity.x += ((acceleration.x) * deltaTime);
+		linearVelocity.y += ((acceleration.y) * deltaTime);
+
+		this.position.x += (linearVelocity.x * deltaTime);
+		this.position.y += (linearVelocity.y * deltaTime);
+		
+	}
+
+	public void clearAccum() {
+		forceAccum = new Point(0,0);
+	}
+
+	public void syncPosition() {
+		rawPosition = position.clone();
+		position = new Point(rawPosition.x, rawPosition.y);
+	}
+
+	public void addForce(Point force) {
+		forceAccum.x += force.x;
+		forceAccum.y += force.y;
 	}
 
 	// "getPoints" applies the rotation and offset to the shape of the polygon.

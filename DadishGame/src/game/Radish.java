@@ -18,8 +18,10 @@ public class Radish extends Polygon implements KeyListener {
 	private Point initialPosition;
 	
 	// status for moving, stationary, jumping
+	private boolean onGround;
+	private Jump jumpForce;
 
-	public Radish(Point[] inShape, Point inPosition, double inRotation) {
+	public Radish(Point[] inShape, Point inPosition, double inRotation, Jump jump) {
 		super(inShape, inPosition, inRotation);
 		up = false;
 		down = false;
@@ -28,6 +30,9 @@ public class Radish extends Polygon implements KeyListener {
 		points = this.getPoints();
 		nOfPoints = points.length;
 		initialPosition = inPosition.clone(); // create a copy of the point
+		onGround = true;
+		jumpForce = jump;
+		mass = 1;
 	}
 	
 	public void reset() {
@@ -35,6 +40,10 @@ public class Radish extends Polygon implements KeyListener {
 		this.position.x = initialPosition.x;
 		this.position.y = initialPosition.y;
 		points = this.getPoints();
+	}
+
+	public boolean getOnGround() {
+		return onGround;
 	}
 
 	public void paint(Graphics brush) {
@@ -74,6 +83,7 @@ public class Radish extends Polygon implements KeyListener {
 		}
 
 		if (up) {
+			// CALLS JUMP FORCE
 			// ---crashes---
 			/*if (this.position.y == initialPosition.y) {
 				// this.position.y = (this.position.y - jumpSize);
@@ -92,7 +102,9 @@ public class Radish extends Polygon implements KeyListener {
 
 			// can only jump when on the ground
 			if (this.position.y == initialPosition.y) {
-				this.position.y = (this.position.y - jumpSize);
+				onGround = false;
+				// this.position.y = (this.position.y - jumpSize);
+				jumpForce.updateForce(this, 10);
 			}
 
 			points = this.getPoints();
@@ -102,7 +114,8 @@ public class Radish extends Polygon implements KeyListener {
 			while (this.position.y != initialPosition.y) {
 				this.position.y = (this.position.y + jumpSize);
 				points = this.getPoints();
-			}			
+			}		
+			onGround = true;	
 		}
 	}
 

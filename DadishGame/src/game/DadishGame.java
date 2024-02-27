@@ -11,6 +11,7 @@ NOTE: This class is the metaphorical "main method" of your program,
 
 */
 import java.awt.*;
+import java.util.ArrayList;
 
 class DadishGame extends Game {
 	private Polygon[] elements; // representing not dadish
@@ -20,10 +21,20 @@ class DadishGame extends Game {
 	private Wall floor;
 	private Wall ceiling;
 
+	private ForceRegistry registry;
+	private ArrayList<Polygon> allElements;
+	private float fixedUpdate = 1.0f / 60.f; // make a constant
+	// 0.16 ms every frame
+	private Gravity gravity = new Gravity(new Point(0, -10)); // make a constant
+	private Jump jump = new Jump(new Point(0, 30));
+	
+
 	public DadishGame() {
 		super("Dadish!", 800, 600);
 		this.setFocusable(true);
 		this.requestFocus(); // focus on component window
+
+		registry = new ForceRegistry();
 
 		int s = 5;
 		Point[] dadishPoints = new Point[] {
@@ -39,10 +50,10 @@ class DadishGame extends Game {
 
 		double groundLevel = (height * 3 / 4) + (s / 2);
 		
-		Point dadishPosition = new Point(width / 2, groundLevel - 10);
+		Point dadishPosition = new Point(width / 2, groundLevel - 200);
 		double inRotation = 180;
 
-		dadish = new Radish(dadishPoints, dadishPosition, inRotation);
+		dadish = new Radish(dadishPoints, dadishPosition, inRotation, jump);
 		this.addKeyListener(dadish);
 
 		Point[] floorPoints = new Point[] { new Point(0, 0), new Point(0, 20), new Point(width * 1.5, 20), 
@@ -53,6 +64,8 @@ class DadishGame extends Game {
 		ceiling = new Wall(floorPoints, new Point(0, 10), 0, "ceiling");
 
 		elements = new Polygon[] { floor, ceiling };
+		allElements = new ArrayList<>();
+		allElements.add(dadish);
 	}
 
 	public void paint(Graphics brush) {
@@ -65,7 +78,15 @@ class DadishGame extends Game {
 		for (int i = 0; i < elements.length; i++) {
 			floor.paint(brush);
 			ceiling.paint(brush);
+
+			registry.updateForces(fixedUpdate);
+			/*for (int j = 0; j < allElements.size(); j++) {
+				allElements.get(j).physicsUpdate(fixedUpdate);
+			}*/
 			dadish.move();
+			dadish.physicsUpdate(fixedUpdate);
+			System.out.println(dadish.linearVelocity.x + " " + dadish.linearVelocity.x);
+			System.out.println(dadish.position.x + " " + dadish.position.y);
 
 			// does dadish collide with another element?
 			if (elements[i].collides(dadish)) {
@@ -75,15 +96,23 @@ class DadishGame extends Game {
 				if (elements[i] instanceof Wall) {
 					// if its the ground - dadish should stay on the ground
 					Wall wallElement = (Wall) elements[i];
-					System.out.println("dadish collided with " + wallElement.getId());
+					// System.out.println("dadish collided with " + wallElement.getId());
 					
 					if (!wallElement.getId().equals("floor")) {
 						dadish.reset();
 					}
 				}
 			}
+
+
 			dadish.paint(brush);
+			// System.out.println(dadish.getOnGround());
 		}
+	}
+
+	public void addRigidBody(Polygon body) {
+		allElements.add(body);
+		registry.list.add(new ForceRegistration(gravity, body));
 	}
 
 	public static void main(String[] args) {
