@@ -61,7 +61,7 @@ public class Radish extends Polygon implements KeyListener {
 
 	public void move() {
 		int stepSize = 5;
-		int jumpSize = 20;
+		int jumpSize = 10 * stepSize;
 		// current position is given by this.position.x and this.position.y
 		if (right) {
 			this.position.x = (this.position.x + stepSize);
@@ -74,6 +74,22 @@ public class Radish extends Polygon implements KeyListener {
 		}
 
 		if (up) {
+			// ---crashes---
+			/*if (this.position.y == initialPosition.y) {
+				// this.position.y = (this.position.y - jumpSize);
+				jumpSize = 30;
+				this.position.y = (this.position.y - jumpSize);
+				points = this.getPoints();
+			}
+
+			jumpSize -= stepSize;
+			points = this.getPoints();
+
+			if (this.position.y >= initialPosition.y) {
+				this.position.y = initialPosition.y;
+				points = this.getPoints();
+			}*/
+
 			// can only jump when on the ground
 			if (this.position.y == initialPosition.y) {
 				this.position.y = (this.position.y - jumpSize);
