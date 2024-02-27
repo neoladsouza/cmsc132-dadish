@@ -78,10 +78,12 @@ public class Radish extends Polygon implements KeyListener {
 		}
 
 		if (down) {
-			while (this.position.y != ((600 * 3 / 4) + (5 / 2))) {
+			/*while (this.position.y != ((600 * 3 / 4) + (5 / 2))) {
 				this.position.y = (this.position.y + stepSize);
 				points = this.getPoints();
-			}
+			}*/
+			this.position.y = (this.position.y + stepSize);
+			points = this.getPoints();
 			
 		}
 	}

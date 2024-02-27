@@ -7,11 +7,11 @@ public class Wall extends Polygon {
 	private int nOfPoints;
 	private String id;
 	
-	public Wall(Point[] inShape, Point inPosition, double inRotation) {
+	public Wall(Point[] inShape, Point inPosition, double inRotation, String id) {
 		super(inShape, inPosition, inRotation);
 		points = this.getPoints();
 		nOfPoints = points.length;
-		id = "floor";
+		this.id = id;
 	}
 	
 	public String getId() {

@@ -49,8 +49,8 @@ class DadishGame extends Game {
 				new Point(width * 1.5, 0) };
 		
 		
-		floor = new Wall(floorPoints, new Point(0, groundLevel + 10), 0);
-		ceiling = new Wall(floorPoints, new Point(0, 10), 0);
+		floor = new Wall(floorPoints, new Point(0, (groundLevel + 10)), 0, "floor");
+		ceiling = new Wall(floorPoints, new Point(0, 10), 0, "ceiling");
 
 		elements = new Polygon[] { floor, ceiling };
 	}
@@ -69,17 +69,19 @@ class DadishGame extends Game {
 
 			// does dadish collide with another element?
 			if (elements[i].collides(dadish)) {
-//				System.out.println("dadish collided with floor");
 //				System.out.println(dadish.position.x + " " + dadish.position.y);
 				
 				// dadish position gets reset to his initial position
 				if (elements[i] instanceof Wall) {
 					// if its the ground - dadish should stay on the ground
-					// .. how do i make him jump?
-					dadish.reset();
+					Wall wallElement = (Wall) elements[i];
+					System.out.println("dadish collided with " + wallElement.getId());
+					
+					if (!wallElement.getId().equals("floor")) {
+						dadish.reset();
+					}
 				}
 			}
-
 			dadish.paint(brush);
 		}
 	}
