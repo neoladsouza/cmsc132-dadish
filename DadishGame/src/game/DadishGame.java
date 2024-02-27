@@ -11,8 +11,6 @@ NOTE: This class is the metaphorical "main method" of your program,
 
 */
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 
 class DadishGame extends Game {
 	private Polygon[] elements; // representing not dadish

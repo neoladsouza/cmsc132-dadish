@@ -10,7 +10,7 @@ public class Radish extends Polygon implements KeyListener {
 	private boolean left;
 	private boolean right;
 	
-	private final int MAX_JUMP_HEIGHT = 30;
+	// private final int MAX_JUMP_HEIGHT = 30;
 
 	private Point[] points;
 	private int nOfPoints;
