@@ -90,6 +90,7 @@ class DadishGame extends Game {
 			// System.out.println(dadish.forceAccum.y);
 			// System.out.println(dadish.position.y);
 			// System.out.println(dadish.linearVelocity.y);
+			System.out.println("onGround: " + dadish.onGround);
 
 			// does dadish collide with another element?
 			if (elements[i].collides(dadish)) {
