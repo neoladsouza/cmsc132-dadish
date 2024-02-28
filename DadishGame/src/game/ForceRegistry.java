@@ -14,4 +14,13 @@ public class ForceRegistry {
             fr.fg.updateForce(fr.element, deltaTime);
         }
     }
+
+    public void toggleGravity() {
+        for (ForceRegistration fr : list) {
+            if (fr.element.onGround == true) {
+                list.remove(fr);
+                return;
+            }
+        }
+	}
 }

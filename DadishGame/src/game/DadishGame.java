@@ -27,6 +27,7 @@ class DadishGame extends Game {
 	// 0.16 ms every frame
 	private Gravity gravity = new Gravity(new Point(0, 10)); // make a constant
 	private Jump jump = new Jump(new Point(0, -11));
+	private double groundLevel;
 	
 
 	public DadishGame() {
@@ -48,7 +49,7 @@ class DadishGame extends Game {
 				new Point(2.5 * s, 4 * s), new Point(3.5 * s, 3.5 * s), new Point(4.5 * s, 2.5 * s),
 				new Point(4.5 * s, 1.5 * s), new Point(4 * s, 1 * s), };
 
-		double groundLevel = (height * 3 / 4) + (s / 2);
+		groundLevel = (height * 3 / 4) + (s / 2);
 		
 		Point dadishPosition = new Point(width / 2, groundLevel - 200);
 		double inRotation = 180;
@@ -87,6 +88,8 @@ class DadishGame extends Game {
 			dadish.move();
 			dadish.physicsUpdate(fixedUpdate);
 			System.out.println(dadish.forceAccum.y);
+			System.out.println(dadish.position.y);
+			System.out.println(dadish.linearVelocity.y);
 
 			// does dadish collide with another element?
 			if (elements[i].collides(dadish)) {
@@ -105,10 +108,19 @@ class DadishGame extends Game {
 						dadish.linearVelocity.y = -10;
 						dadish.clearAccum();*/
 						// registry.list.clear();
+
 						dadish.clearAccum();
 						dadish.linearVelocity.y = 0;
-
+						/* if (on_ground)
+						 * 		remove gravity
+						 * else 
+						 * 		add gravity
+						 */
+						dadish.onGround = true;
+						registry.toggleGravity();
 					}
+				} else {
+					dadish.onGround = false;
 				}
 			}
 

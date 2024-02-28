@@ -26,6 +26,8 @@ class Polygon {
 	private float deltaTime =  1.0f / 60.f;
 	
 	private Point rawPosition;
+	
+	public boolean onGround;
 
 	public Polygon(Point[] inShape, Point inPosition, double inRotation) {
 		shape = inShape;

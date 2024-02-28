@@ -18,7 +18,6 @@ public class Radish extends Polygon implements KeyListener {
 	private Point initialPosition;
 	
 	// status for moving, stationary, jumping
-	private boolean onGround;
 	private Jump jumpForce;
 
 	 public ForceRegistry globalRegistry;
@@ -73,7 +72,7 @@ public class Radish extends Polygon implements KeyListener {
 
 	public void move() {
 		int stepSize = 5;
-		int jumpSize = 10 * stepSize;
+		// int jumpSize = 10 * stepSize;
 		// current position is given by this.position.x and this.position.y
 		if (right) {
 			this.position.x = (this.position.x + stepSize);
