@@ -87,9 +87,9 @@ class DadishGame extends Game {
 			}*/
 			dadish.move();
 			dadish.physicsUpdate(fixedUpdate);
-			System.out.println(dadish.forceAccum.y);
-			System.out.println(dadish.position.y);
-			System.out.println(dadish.linearVelocity.y);
+			// System.out.println(dadish.forceAccum.y);
+			// System.out.println(dadish.position.y);
+			// System.out.println(dadish.linearVelocity.y);
 
 			// does dadish collide with another element?
 			if (elements[i].collides(dadish)) {
@@ -109,15 +109,15 @@ class DadishGame extends Game {
 						dadish.clearAccum();*/
 						// registry.list.clear();
 
-						dadish.clearAccum();
-						dadish.linearVelocity.y = 0;
+						dadish.clearAccum(); // needed
+						dadish.linearVelocity.y = 0; // needed
 						/* if (on_ground)
 						 * 		remove gravity
 						 * else 
 						 * 		add gravity
 						 */
 						dadish.onGround = true;
-						registry.toggleGravity();
+						registry.toggleGravity(gravity, dadish);
 					}
 				} else {
 					dadish.onGround = false;

@@ -6,7 +6,7 @@ import java.awt.event.*;
 public class Radish extends Polygon implements KeyListener {
 	// going to handle making all the radishes, from dadish to his kids
 	private boolean up;
-	private boolean down;
+	// private boolean down;
 	private boolean left;
 	private boolean right;
 	
@@ -25,13 +25,14 @@ public class Radish extends Polygon implements KeyListener {
 	public Radish(Point[] inShape, Point inPosition, double inRotation, Jump jump, ForceRegistry globalRegistry) {
 		super(inShape, inPosition, inRotation);
 		up = false;
-		down = false;
+		// down = false;
 		left = false;
 		right = false;
 		points = this.getPoints();
 		nOfPoints = points.length;
 		initialPosition = inPosition.clone(); // create a copy of the point
 		onGround = true;
+		jumpStart  = false;
 		jumpForce = jump;
 		setMass(0.5f);
 		this.globalRegistry = globalRegistry;
@@ -94,20 +95,24 @@ public class Radish extends Polygon implements KeyListener {
 			}*/
 			
 			// points = this.getPoints();
-			globalRegistry.list.add(new ForceRegistration(jumpForce, this));
-			globalRegistry.list.remove(globalRegistry.list.size() - 1);
+			jumpStart = true;
+			globalRegistry.toggleJump(jumpForce, this);
+			// globalRegistry.list.add(new ForceRegistration(jumpForce, this));
+			// globalRegistry.list.remove(globalRegistry.list.size() - 1);
+		} else {
+			jumpStart = false;
 		}
 
-		if (down) {
-			/*while (this.position.y != initialPosition.y) {
-				this.position.y = (this.position.y + jumpSize);
-				points = this.getPoints();
-			}*/		
+		/*if (down) {
+			// while (this.position.y != initialPosition.y) {
+				// this.position.y = (this.position.y + jumpSize);
+				// points = this.getPoints();
+			// }	
 			this.position.y = initialPosition.y;
 			this.position.x = initialPosition.x;
 			points = this.getPoints();
 			onGround = true;	
-		}
+		}*/
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -127,9 +132,9 @@ public class Radish extends Polygon implements KeyListener {
 			// decrease Y by jumpHeight -> increment Y by to fall back down until bro hits the ground
 		}
 
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+		/*if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			down = true;
-		}
+		}*/
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -145,9 +150,9 @@ public class Radish extends Polygon implements KeyListener {
 			up = false;
 		}
 
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+		/*if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			down = false;
-		}
+		}*/
 	}
 
 	public void keyTyped(KeyEvent e) {

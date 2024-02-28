@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ForceRegistry {
     public ArrayList<ForceRegistration> list;
+    public final float deltaTime = 1.0f/60.0f;
 
     public ForceRegistry() {
         list = new ArrayList<>();
@@ -15,12 +16,35 @@ public class ForceRegistry {
         }
     }
 
-    public void toggleGravity() {
-        for (ForceRegistration fr : list) {
-            if (fr.element.onGround == true) {
-                list.remove(fr);
-                return;
+    public void toggleGravity(Gravity gravity, Polygon element) {
+        if (element.onGround == true) {
+            for (ForceRegistration fr : list) {
+                if (fr.fg instanceof Gravity && fr.element.onGround == true) {
+                    list.remove(fr);
+                    System.out.println("toggle gravity OFF");
+                    return;
+                }
+            }
+        } else {
+            list.add(new ForceRegistration(gravity, element));
+            System.out.println("toggle gravity ON");
+        }
+        
+	}
+
+    public void toggleJump(Jump jumpForce, Polygon element) {
+        if (element.jumpStart == true) {
+            // when up is clicked -> add jump force to registry
+            list.add(new ForceRegistration(jumpForce, element));
+            System.out.println("toggle jump ON");
+        } else {
+            for (ForceRegistration fr : list) {
+                if (fr.fg instanceof Jump && fr.element.jumpStart == false) {
+                    list.remove(fr);
+                    System.out.println("toggle jump OFF");
+                    return;
+                }
             }
         }
-	}
+    }
 }
