@@ -32,7 +32,7 @@ public class Radish extends Polygon implements KeyListener {
 		points = this.getPoints();
 		nOfPoints = points.length;
 		initialPosition = inPosition.clone(); // create a copy of the point
-		onGround = false; // only true when we start at the ground
+		onGround = true;
 		jumpStart  = false;
 		jumpForce = jump;
 		gravityForce = gravity;
@@ -98,16 +98,15 @@ public class Radish extends Polygon implements KeyListener {
 			
 			// points = this.getPoints();
 			jumpStart = true;
-			globalRegistry.toggleJump(jumpForce, this); // jump is ON
-			globalRegistry.toggleGravity(gravityForce, this); // gravity is OFF
+			onGround = false;
+			globalRegistry.toggleJump(jumpForce, this);
+			globalRegistry.toggleGravity(gravityForce, this);
 			// globalRegistry.list.add(new ForceRegistration(jumpForce, this));
 			// globalRegistry.list.remove(globalRegistry.list.size() - 1);
 		} else {
 			// when up gets released, gravity gets toggled BECAUSE WE'RE NOT ON THE GROUND ANYMORE
 			jumpStart = false;
-			onGround = false;
-			globalRegistry.toggleJump(jumpForce, this); // jump is OFF
-			globalRegistry.toggleGravity(gravityForce, this); // gravity is ON
+			onGround = true;
 			// globalRegistry.toggleGravity(gravityForce, this);
 		}
 

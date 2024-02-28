@@ -19,10 +19,7 @@ public class ForceRegistry {
     public void toggleGravity(Gravity gravity, Polygon element) {
         // when does gravity need to be acting on dadish?
         // BUT after having jumped, i.e. up key released (dadish.up == false)
-        if (!element.onGround) {
-            list.add(new ForceRegistration(gravity, element));
-            System.out.println("toggle gravity ON"); // not turning on???
-        } else {
+        if (element.onGround == true || element.jumpStart == true) { 
             for (ForceRegistration fr : list) {
                 if (fr.fg instanceof Gravity && fr.element.onGround == true) {
                     list.remove(fr);
@@ -30,11 +27,15 @@ public class ForceRegistry {
                     return;
                 }
             }
-        }  
+        } else {
+            list.add(new ForceRegistration(gravity, element));
+            System.out.println("toggle gravity ON");
+        }
+        
 	}
 
     public void toggleJump(Jump jumpForce, Polygon element) {
-        if (element.jumpStart == true && element.onGround == true) {
+        if (element.jumpStart == true) {
             // when up is clicked -> add jump force to registry
             list.add(new ForceRegistration(jumpForce, element));
             System.out.println("toggle jump ON");
