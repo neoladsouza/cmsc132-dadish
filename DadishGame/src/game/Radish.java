@@ -21,7 +21,9 @@ public class Radish extends Polygon implements KeyListener {
 	private boolean onGround;
 	private Jump jumpForce;
 
-	public Radish(Point[] inShape, Point inPosition, double inRotation, Jump jump) {
+	 public ForceRegistry globalRegistry;
+
+	public Radish(Point[] inShape, Point inPosition, double inRotation, Jump jump, ForceRegistry globalRegistry) {
 		super(inShape, inPosition, inRotation);
 		up = false;
 		down = false;
@@ -32,7 +34,8 @@ public class Radish extends Polygon implements KeyListener {
 		initialPosition = inPosition.clone(); // create a copy of the point
 		onGround = true;
 		jumpForce = jump;
-		mass = 1;
+		setMass(0.5f);
+		this.globalRegistry = globalRegistry;
 	}
 	
 	public void reset() {
@@ -84,37 +87,26 @@ public class Radish extends Polygon implements KeyListener {
 
 		if (up) {
 			// CALLS JUMP FORCE
-			// ---crashes---
-			/*if (this.position.y == initialPosition.y) {
-				// this.position.y = (this.position.y - jumpSize);
-				jumpSize = 30;
-				this.position.y = (this.position.y - jumpSize);
-				points = this.getPoints();
-			}
-
-			jumpSize -= stepSize;
-			points = this.getPoints();
-
-			if (this.position.y >= initialPosition.y) {
-				this.position.y = initialPosition.y;
-				points = this.getPoints();
-			}*/
-
 			// can only jump when on the ground
-			if (this.position.y == initialPosition.y) {
+			/*if (this.position.y == initialPosition.y) {
 				onGround = false;
 				// this.position.y = (this.position.y - jumpSize);
-				jumpForce.updateForce(this, 10);
-			}
-
-			points = this.getPoints();
+				
+			}*/
+			
+			// points = this.getPoints();
+			globalRegistry.list.add(new ForceRegistration(jumpForce, this));
+			globalRegistry.list.remove(globalRegistry.list.size() - 1);
 		}
 
 		if (down) {
-			while (this.position.y != initialPosition.y) {
+			/*while (this.position.y != initialPosition.y) {
 				this.position.y = (this.position.y + jumpSize);
 				points = this.getPoints();
-			}		
+			}*/		
+			this.position.y = initialPosition.y;
+			this.position.x = initialPosition.x;
+			points = this.getPoints();
 			onGround = true;	
 		}
 	}

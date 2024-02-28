@@ -21,9 +21,9 @@ class Polygon {
 	public double rotation; // Zero degrees is due east.
 	public float mass = 0.0f;
 	private float inverseMass = 0.0f;
-	private Point forceAccum = new Point(1, 1);
-	public Point linearVelocity = new Point(0,1);
-	private float deltaTime = 2f;
+	public Point forceAccum = new Point(0, 0);
+	public Point linearVelocity = new Point(0,0);
+	private float deltaTime =  1.0f / 60.f;
 	
 	private Point rawPosition;
 
@@ -73,7 +73,8 @@ class Polygon {
 	}
 
 	public void clearAccum() {
-		forceAccum = new Point(0,0);
+		forceAccum.x = 0;
+		forceAccum.y = 0;
 	}
 
 	public void syncPosition() {

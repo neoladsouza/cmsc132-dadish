@@ -25,8 +25,8 @@ class DadishGame extends Game {
 	private ArrayList<Polygon> allElements;
 	private float fixedUpdate = 1.0f / 60.f; // make a constant
 	// 0.16 ms every frame
-	private Gravity gravity = new Gravity(new Point(0, -10)); // make a constant
-	private Jump jump = new Jump(new Point(0, 30));
+	private Gravity gravity = new Gravity(new Point(0, 10)); // make a constant
+	private Jump jump = new Jump(new Point(0, -11));
 	
 
 	public DadishGame() {
@@ -36,7 +36,7 @@ class DadishGame extends Game {
 
 		registry = new ForceRegistry();
 
-		int s = 5;
+		int s = 6;
 		Point[] dadishPoints = new Point[] {
 				/*
 				 * new Point(0,0), new Point(0, sideLength), new Point(sideLength,sideLength),
@@ -53,7 +53,7 @@ class DadishGame extends Game {
 		Point dadishPosition = new Point(width / 2, groundLevel - 200);
 		double inRotation = 180;
 
-		dadish = new Radish(dadishPoints, dadishPosition, inRotation, jump);
+		dadish = new Radish(dadishPoints, dadishPosition, inRotation, jump, registry);
 		this.addKeyListener(dadish);
 
 		Point[] floorPoints = new Point[] { new Point(0, 0), new Point(0, 20), new Point(width * 1.5, 20), 
@@ -66,6 +66,7 @@ class DadishGame extends Game {
 		elements = new Polygon[] { floor, ceiling };
 		allElements = new ArrayList<>();
 		allElements.add(dadish);
+		registry.list.add(new ForceRegistration(gravity, dadish));
 	}
 
 	public void paint(Graphics brush) {
@@ -85,8 +86,7 @@ class DadishGame extends Game {
 			}*/
 			dadish.move();
 			dadish.physicsUpdate(fixedUpdate);
-			System.out.println(dadish.linearVelocity.x + " " + dadish.linearVelocity.x);
-			System.out.println(dadish.position.x + " " + dadish.position.y);
+			System.out.println(dadish.forceAccum.y);
 
 			// does dadish collide with another element?
 			if (elements[i].collides(dadish)) {
@@ -98,8 +98,16 @@ class DadishGame extends Game {
 					Wall wallElement = (Wall) elements[i];
 					// System.out.println("dadish collided with " + wallElement.getId());
 					
-					if (!wallElement.getId().equals("floor")) {
-						dadish.reset();
+					if (wallElement.getId().equals("floor")) {
+						// dadish.reset();
+						/*System.out.println("floor");
+						dadish.clearAccum();
+						dadish.linearVelocity.y = -10;
+						dadish.clearAccum();*/
+						// registry.list.clear();
+						dadish.clearAccum();
+						dadish.linearVelocity.y = 0;
+
 					}
 				}
 			}
@@ -108,11 +116,6 @@ class DadishGame extends Game {
 			dadish.paint(brush);
 			// System.out.println(dadish.getOnGround());
 		}
-	}
-
-	public void addRigidBody(Polygon body) {
-		allElements.add(body);
-		registry.list.add(new ForceRegistration(gravity, body));
 	}
 
 	public static void main(String[] args) {
