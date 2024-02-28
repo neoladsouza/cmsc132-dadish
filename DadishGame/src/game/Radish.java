@@ -105,7 +105,7 @@ public class Radish extends Polygon implements KeyListener {
 		} else {
 			// when up gets released, gravity gets toggled BECAUSE WE'RE NOT ON THE GROUND ANYMORE
 			jumpStart = false;
-			onGround = false;
+			// onGround = false;
 			globalRegistry.toggleJump(jumpForce, this); // jump is OFF
 			globalRegistry.toggleGravity(gravityForce, this); // gravity is ON
 			// globalRegistry.toggleGravity(gravityForce, this);
