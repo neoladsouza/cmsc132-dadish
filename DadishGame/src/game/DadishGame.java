@@ -51,17 +51,17 @@ class DadishGame extends Game {
 
 		groundLevel = (height * 3 / 4) + (s / 2);
 		
-		Point dadishPosition = new Point(width / 2, groundLevel - 200);
+		Point dadishPosition = new Point(width / 2, groundLevel);
 		double inRotation = 180;
 
 		dadish = new Radish(dadishPoints, dadishPosition, inRotation, jump, gravity, registry);
 		this.addKeyListener(dadish);
 
-		Point[] floorPoints = new Point[] { new Point(0, 0), new Point(0, 20), new Point(width * 1.5, 20), 
+		Point[] floorPoints = new Point[] { new Point(0, 0), new Point(0, 1), new Point(width * 1.5, 1), 
 				new Point(width * 1.5, 0) };
 		
 		
-		floor = new Wall(floorPoints, new Point(0, (groundLevel + 10)), 0, "floor");
+		floor = new Wall(floorPoints, new Point(0, (groundLevel)), 0, "floor");
 		ceiling = new Wall(floorPoints, new Point(0, 10), 0, "ceiling");
 
 		elements = new Polygon[] { floor, ceiling };

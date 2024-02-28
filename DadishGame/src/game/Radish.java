@@ -89,6 +89,8 @@ public class Radish extends Polygon implements KeyListener {
 			points = this.getPoints();
 		}
 
+		
+
 		/*if (down) {
 			// while (this.position.y != initialPosition.y) {
 				// this.position.y = (this.position.y + jumpSize);
