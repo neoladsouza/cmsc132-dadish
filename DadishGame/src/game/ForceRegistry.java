@@ -17,7 +17,9 @@ public class ForceRegistry {
     }
 
     public void toggleGravity(Gravity gravity, Polygon element) {
-        if (element.onGround == true) {
+        // when does gravity need to be acting on dadish?
+        // BUT after having jumped, i.e. up key released (dadish.up == false)
+        if (element.onGround == true || element.jumpStart == true) { 
             for (ForceRegistration fr : list) {
                 if (fr.fg instanceof Gravity && fr.element.onGround == true) {
                     list.remove(fr);

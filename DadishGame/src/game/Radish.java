@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class Radish extends Polygon implements KeyListener {
 	// going to handle making all the radishes, from dadish to his kids
-	private boolean up;
+	public boolean up;
 	// private boolean down;
 	private boolean left;
 	private boolean right;
@@ -19,10 +19,11 @@ public class Radish extends Polygon implements KeyListener {
 	
 	// status for moving, stationary, jumping
 	private Jump jumpForce;
+	private Gravity gravityForce;
 
-	 public ForceRegistry globalRegistry;
+	public ForceRegistry globalRegistry;
 
-	public Radish(Point[] inShape, Point inPosition, double inRotation, Jump jump, ForceRegistry globalRegistry) {
+	public Radish(Point[] inShape, Point inPosition, double inRotation, Jump jump, Gravity gravity, ForceRegistry globalRegistry) {
 		super(inShape, inPosition, inRotation);
 		up = false;
 		// down = false;
@@ -34,6 +35,7 @@ public class Radish extends Polygon implements KeyListener {
 		onGround = true;
 		jumpStart  = false;
 		jumpForce = jump;
+		gravityForce = gravity;
 		setMass(0.5f);
 		this.globalRegistry = globalRegistry;
 	}
@@ -96,11 +98,16 @@ public class Radish extends Polygon implements KeyListener {
 			
 			// points = this.getPoints();
 			jumpStart = true;
+			onGround = false;
 			globalRegistry.toggleJump(jumpForce, this);
+			globalRegistry.toggleGravity(gravityForce, this);
 			// globalRegistry.list.add(new ForceRegistration(jumpForce, this));
 			// globalRegistry.list.remove(globalRegistry.list.size() - 1);
 		} else {
+			// when up gets released, gravity gets toggled BECAUSE WE'RE NOT ON THE GROUND ANYMORE
 			jumpStart = false;
+			onGround = true;
+			// globalRegistry.toggleGravity(gravityForce, this);
 		}
 
 		/*if (down) {
@@ -126,6 +133,7 @@ public class Radish extends Polygon implements KeyListener {
 
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			up = true;
+			System.out.println("up pressed");
 			// dadish goes up
 			// once he goes up, determine how fast he falls back down
 			// seperate movement between up and down, left and right
@@ -148,6 +156,7 @@ public class Radish extends Polygon implements KeyListener {
 
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			up = false;
+			System.out.println("up released");
 		}
 
 		/*if (e.getKeyCode() == KeyEvent.VK_DOWN) {

@@ -54,7 +54,7 @@ class DadishGame extends Game {
 		Point dadishPosition = new Point(width / 2, groundLevel - 200);
 		double inRotation = 180;
 
-		dadish = new Radish(dadishPoints, dadishPosition, inRotation, jump, registry);
+		dadish = new Radish(dadishPoints, dadishPosition, inRotation, jump, gravity, registry);
 		this.addKeyListener(dadish);
 
 		Point[] floorPoints = new Point[] { new Point(0, 0), new Point(0, 20), new Point(width * 1.5, 20), 
