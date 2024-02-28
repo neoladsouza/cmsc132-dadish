@@ -39,6 +39,7 @@ public class ForceRegistry {
             // when up is clicked -> add jump force to registry
             list.add(new ForceRegistration(jumpForce, element));
             System.out.println("toggle jump ON");
+            
         } else {
             for (ForceRegistration fr : list) {
                 if (fr.fg instanceof Jump && fr.element.jumpStart == false) {

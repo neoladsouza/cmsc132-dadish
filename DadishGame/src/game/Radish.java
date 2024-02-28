@@ -23,6 +23,8 @@ public class Radish extends Polygon implements KeyListener {
 
 	public ForceRegistry globalRegistry;
 
+	private static Integer lastKeyPressed = null;
+
 	public Radish(Point[] inShape, Point inPosition, double inRotation, Jump jump, Gravity gravity, ForceRegistry globalRegistry) {
 		super(inShape, inPosition, inRotation);
 		up = false;
@@ -32,7 +34,7 @@ public class Radish extends Polygon implements KeyListener {
 		points = this.getPoints();
 		nOfPoints = points.length;
 		initialPosition = inPosition.clone(); // create a copy of the point
-		onGround = true;
+		onGround = false;
 		jumpStart  = false;
 		jumpForce = jump;
 		gravityForce = gravity;
@@ -87,29 +89,6 @@ public class Radish extends Polygon implements KeyListener {
 			points = this.getPoints();
 		}
 
-		if (up) {
-			// CALLS JUMP FORCE
-			// can only jump when on the ground
-			/*if (this.position.y == initialPosition.y) {
-				onGround = false;
-				// this.position.y = (this.position.y - jumpSize);
-				
-			}*/
-			
-			// points = this.getPoints();
-			jumpStart = true;
-			onGround = false;
-			globalRegistry.toggleJump(jumpForce, this);
-			globalRegistry.toggleGravity(gravityForce, this);
-			// globalRegistry.list.add(new ForceRegistration(jumpForce, this));
-			// globalRegistry.list.remove(globalRegistry.list.size() - 1);
-		} else {
-			// when up gets released, gravity gets toggled BECAUSE WE'RE NOT ON THE GROUND ANYMORE
-			jumpStart = false;
-			onGround = true;
-			// globalRegistry.toggleGravity(gravityForce, this);
-		}
-
 		/*if (down) {
 			// while (this.position.y != initialPosition.y) {
 				// this.position.y = (this.position.y + jumpSize);
@@ -122,6 +101,31 @@ public class Radish extends Polygon implements KeyListener {
 		}*/
 	}
 
+	public void jump(){
+		if (up) {
+			// CALLS JUMP FORCE
+			// can only jump when on the ground
+			/*if (this.position.y == initialPosition.y) {
+				onGround = false;
+				// this.position.y = (this.position.y - jumpSize);
+				
+			}*/
+			
+			// points = this.getPoints();
+			jumpStart = true;
+			onGround = false;
+			System.out.println("jump true");
+			globalRegistry.toggleJump(jumpForce, this);
+			globalRegistry.toggleGravity(gravityForce, this);
+			// globalRegistry.list.add(new ForceRegistration(jumpForce, this));
+			// globalRegistry.list.remove(globalRegistry.list.size() - 1);
+			jumpStart = false;
+			System.out.println("jump false");
+			onGround = true;
+			up = false;
+		}
+	}
+
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			right = true;
@@ -131,7 +135,8 @@ public class Radish extends Polygon implements KeyListener {
 			left = true;
 		}
 
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
+		if ((lastKeyPressed == null || lastKeyPressed != e.getKeyCode()) && e.getKeyCode() == KeyEvent.VK_UP) {
+			lastKeyPressed = e.getKeyCode();
 			up = true;
 			System.out.println("up pressed");
 			// dadish goes up
@@ -155,7 +160,8 @@ public class Radish extends Polygon implements KeyListener {
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			up = false;
+			// up = false;
+			lastKeyPressed = null;
 			System.out.println("up released");
 		}
 

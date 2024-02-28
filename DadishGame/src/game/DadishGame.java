@@ -11,7 +11,7 @@ NOTE: This class is the metaphorical "main method" of your program,
 
 */
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 class DadishGame extends Game {
 	private Polygon[] elements; // representing not dadish
@@ -86,6 +86,7 @@ class DadishGame extends Game {
 				allElements.get(j).physicsUpdate(fixedUpdate);
 			}*/
 			dadish.move();
+			dadish.jump();
 			dadish.physicsUpdate(fixedUpdate);
 			// System.out.println(dadish.forceAccum.y);
 			// System.out.println(dadish.position.y);
