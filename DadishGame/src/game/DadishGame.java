@@ -100,7 +100,7 @@ class DadishGame extends Game {
 				if (elements[i] instanceof Wall) {
 					// if its the ground - dadish should stay on the ground
 					Wall wallElement = (Wall) elements[i];
-					// System.out.println("dadish collided with " + wallElement.getId());
+					//System.out.println("dadish collided with " + wallElement.getId());
 					
 					if (wallElement.getId().equals("floor")) {
 						// dadish.reset();
